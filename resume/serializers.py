@@ -31,4 +31,4 @@ class UserSerializer(serializers.ModelSerializer):
 class JobDetailsSerializer(serializers.ModelSerializer):
   class Meta():
     model = JobDetails
-    fields = ('document',)
+    fields = ('document', 'user')

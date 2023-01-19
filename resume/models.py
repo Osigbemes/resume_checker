@@ -58,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 class JobDetails(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     skill = models.CharField(max_length=200)
     role = models.CharField(max_length=100)
     score = models.DecimalField(decimal_places=4, max_digits=4, null=True)
