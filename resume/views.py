@@ -2,14 +2,15 @@
 from urllib import request
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView, status
 from rest_framework import generics
-from .models import User
+from .models import User, JobDetails
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
+from .serializers import UserSerializer, JobDetailsSerializer
 from rest_framework.permissions import AllowAny
 
 
@@ -66,17 +67,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class Login(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-class FileUploadView(APIView):
-    # parser_classes = (FileUploadParser,MultiPartParser )
+class JobDetailsView(APIView):
+  parser_classes = (MultiPartParser, FormParser)
+  serializer_class = JobDetailsSerializer
+  queryset = JobDetails
 
-    def post(self, request, format='jpg'):
-        up_file = request.FILES['file']
-        destination = open('/Users/Username/' + up_file.name, 'wb+')
-        for chunk in up_file.chunks():
-            destination.write(chunk)
-        destination.close()  # File should be closed only after all chuns are added
-
-        # ...
-        # do some stuff with uploaded file
-        # ...
-        return Response(up_file.name, status.HTTP_201_CREATED)
+  def post(self, request, *args, **kwargs):
+    file_serializer = self.serializer_class(data=request.data)
+    if file_serializer.is_valid():
+        file_serializer.save()
+        
+        return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

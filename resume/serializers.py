@@ -1,7 +1,6 @@
-from decimal import Decimal
-from email.policy import default
+
 from rest_framework import serializers
-from .models import User
+from .models import User, JobDetails
 
 class UserSerializer(serializers.ModelSerializer):
     USERSTATUS=(
@@ -28,3 +27,8 @@ class UserSerializer(serializers.ModelSerializer):
         instance.userStatus= status
         instance.save()
         return instance
+
+class JobDetailsSerializer(serializers.ModelSerializer):
+  class Meta():
+    model = JobDetails
+    fields = ('document',)

@@ -60,6 +60,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 class JobDetails(models.Model):
     skill = models.CharField(max_length=200)
     role = models.CharField(max_length=100)
-    score = models.DecimalField(decimal_places=4, max_digits=4)
+    score = models.DecimalField(decimal_places=4, max_digits=4, null=True)
     document = models.FileField(blank=False, null=False)
     interviewTime = models.DateTimeField(default=timezone.now)
