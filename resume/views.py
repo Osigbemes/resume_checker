@@ -27,7 +27,6 @@ class UserRegistration(generics.CreateAPIView):
             
             token=RefreshToken.for_user(user).access_token
             user.token = token
-            user.bankName = user.accountName
             user.save()
             
             #user already has a bank account
@@ -66,3 +65,18 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class Login(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+class FileUploadView(APIView):
+    # parser_classes = (FileUploadParser,MultiPartParser )
+
+    def post(self, request, format='jpg'):
+        up_file = request.FILES['file']
+        destination = open('/Users/Username/' + up_file.name, 'wb+')
+        for chunk in up_file.chunks():
+            destination.write(chunk)
+        destination.close()  # File should be closed only after all chuns are added
+
+        # ...
+        # do some stuff with uploaded file
+        # ...
+        return Response(up_file.name, status.HTTP_201_CREATED)

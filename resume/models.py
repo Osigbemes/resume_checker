@@ -56,3 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+class JobDetails(models.Model):
+    skill = models.CharField(max_length=200)
+    role = models.CharField(max_length=100)
+    score = models.DecimalField(decimal_places=4, max_digits=4)
+    document = models.FileField(blank=False, null=False)
+    interviewTime = models.DateTimeField(default=timezone.now)

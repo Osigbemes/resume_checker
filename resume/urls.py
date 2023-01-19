@@ -5,6 +5,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import UserRegistration, Login
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'HealthSystem'
 
@@ -14,3 +16,5 @@ urlpatterns = [
     path('register/', UserRegistration.as_view(), name='register'),
     path('login/', Login.as_view(), name='login'),
 ]
+if settings.DEBUG:
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
