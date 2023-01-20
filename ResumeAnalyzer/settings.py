@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-q-=4vdv+kcfo8wy%&3(2@m=7gygow37bs!inf%eie=*r=^j#(c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://resumechecker-production.up.railway.app']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://resumechecker-production.up.railway.app'
+    'resumechecker-production.up.railway.app'
 ]
 
 
