@@ -29,6 +29,10 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 class JobDetailsSerializer(serializers.ModelSerializer):
-  class Meta():
-    model = JobDetails
-    fields = ('document', 'user')
+    
+    # skill_set = serializers.ListField(child=serializers.CharField())
+
+    class Meta():
+        model = JobDetails
+        fields = ('document', 'user', 'skillSet', 'role')
+    

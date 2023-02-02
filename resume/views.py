@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView, status
 from rest_framework import generics
 from .models import User, JobDetails
+from .resume import Resume
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -76,7 +77,15 @@ class JobDetailsView(APIView):
     file_serializer = self.serializer_class(data=request.data)
     if file_serializer.is_valid():
         file = file_serializer.save()
-        print (file.document)
+
+        skill_set = file.skillSet
+        file_name = file.document
+        # print (skill_set)
+        # call resume checker
+        resume = Resume(file_name,skill_set)
+        print (file_name)
+        
+
         return Response(file_serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

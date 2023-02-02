@@ -1,6 +1,8 @@
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from django.db.models import CharField
+from django_mysql.models import ListCharField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 class CustomAccountManager(BaseUserManager):
@@ -59,7 +61,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class JobDetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    skill = models.CharField(max_length=200)
+    # skillSet = models.JSONField(null=True, blank=True)
+    skillSet = ListCharField(
+        base_field=CharField(max_length=10),
+        size=6,
+        blank=True, null=True,
+        max_length=(6 * 111),  # 6 * 10 character nominals, plus commas
+    )
     role = models.CharField(max_length=100)
     score = models.DecimalField(decimal_places=4, max_digits=4, null=True)
     document = models.FileField(blank=False, null=False)
