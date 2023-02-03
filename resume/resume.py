@@ -1,7 +1,7 @@
 # pip install pdfminer.six
 # pip install nltk
 
-from docx import Document
+
 import docx2txt
 import nltk
 import re
