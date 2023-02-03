@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView, status
 from rest_framework import generics
 from .models import User, JobDetails
-# from .resume import Analyzer
+from .resume import Analyzer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -83,9 +83,9 @@ class JobDetailsView(APIView):
         file_name = file.document
         # print (skill_set)
         # call resume checker
-        # resume = Analyzer(file_name,skill_set)
-        # found_skills = resume.extract_skills()
-        # print (found_skills)
+        resume = Analyzer(file_name,skill_set)
+        found_skills = resume.extract_skills()
+        print (found_skills)
         
 
         return Response(file_serializer.data, status=status.HTTP_201_CREATED)
