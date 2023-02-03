@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView, status
 from rest_framework import generics
 from .models import User, JobDetails
-from .resume import Analyzer
+# from .resume import Analyzer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
