@@ -12,23 +12,15 @@ from pdfminer.high_level import extract_text
 PHONE_REG = re.compile(r'[\+\(]?[1-9][0-9 .\-\(\)]{8,}[0-9]')
 EMAIL_REG = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
 
-class Resume:
-    def __init__(self, file_name,skill_set):
-        self.file_name=file_name
-        self.skill_set=skill_set
-
-    
+class Analyzer:
     file_name=""
     skill_set = []
-    # get details
-    def get_document_name(fileName):
-        file_name=fileName
-        return fileName
 
-    def get_skill_set(skillSet):
-        skill_set=skillSet
-        return skillSet
-
+    def __init__(self, file_name,skill_set):
+        file_name=file_name
+        skill_set=skill_set
+        self.file_name=file_name
+        self.skill_set=skill_set
 
 
 
@@ -170,24 +162,9 @@ class Resume:
 
     
     # you may read the database from a csv file or some other database
-    SKILLS_DB = skill_set
+    # SKILLS_DB = skill_set
 
-    # SKILLS_DB = [
-    #     'machine learning',
-    #     'data science',
-    #     'python',
-    #     'word',
-    #     'excel',
-    #     'english',
-    #     'next',
-    #     'git',
-    #     'node',
-    #     'typescript',
-    #     'react',
-    #     'javascript',
-    #     'java',
-    #     'php'
-    # ]
+    
     
     
     def extract_text_from_docx(docx_path):
@@ -198,11 +175,30 @@ class Resume:
     
     def extract_text_from_pdf(pdf_path):
         return extract_text(pdf_path)
-
+        
+    input_text = extract_text_from_pdf(f'media/resume.pdf')
     
-    def extract_skills(self, input_text):
+    def extract_skills(self):
+
+        SKILLS_DB = [
+            'machine learning',
+            'data science',
+            'python',
+            'word',
+            'excel',
+            'english',
+            'next',
+            'git',
+            'node',
+            'typescript',
+            'react',
+            'javascript',
+            'java',
+            'php'
+        ]
+        print (self.input_text)
         stop_words = set(nltk.corpus.stopwords.words('english'))
-        word_tokens = nltk.tokenize.word_tokenize(input_text)
+        word_tokens = nltk.tokenize.word_tokenize(self.input_text)
     
         # remove the stop words
         filtered_tokens = [w for w in word_tokens if w not in stop_words]
@@ -218,22 +214,22 @@ class Resume:
     
         # we search for each token in our skills database
         for token in filtered_tokens:
-            if token.lower() in self:
+            if token.lower() in SKILLS_DB:
                 found_skills.add(token)
     
         # we search for each bigram and trigram in our skills database
         for ngram in bigrams_trigrams:
-            if ngram.lower() in self.skill_set:
+            if ngram.lower() in SKILLS_DB:
                 found_skills.add(ngram)
     
         return found_skills
     
  
-    if __name__ == '__main__':
-        text = extract_text_from_pdf(f'./media/{file_name}')
-        skills = extract_skills(text)
-    
-        print(skills)  # noqa: T001
+    # if __name__ == '__main__':
+    #     text = extract_text_from_pdf(f'./media/{file_name}')
+    #     skills = extract_skills(text)
+    #     # return skills
+    #     print(skills)  # noqa: T001
         
         
 
