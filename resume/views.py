@@ -85,7 +85,7 @@ class JobDetailsView(APIView):
         # call resume checker
         resume = Analyzer(file_name,skill_set)
         found_skills = resume.extract_skills()
-        print (found_skills)
+        # print (found_skills)
         
 
         return Response(file_serializer.data, status=status.HTTP_201_CREATED)
