@@ -34,5 +34,6 @@ class JobDetailsSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = JobDetails
-        fields = ('document', 'user', 'skillSet', 'role')
+        fields = ('document', 'user', 'role', 'score')
+        extra_kwargs = {'score': {'read_only':True}}
     

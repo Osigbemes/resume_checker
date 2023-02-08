@@ -1,4 +1,5 @@
 
+from decimal import Decimal
 from urllib import request
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -8,12 +9,13 @@ from rest_framework.views import APIView, status
 from rest_framework import generics
 from .models import User, JobDetails
 from .resume import Analyzer
+from io import TextIOWrapper
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, JobDetailsSerializer
 from rest_framework.permissions import AllowAny
-
+from .check_resume import extract_skills, get_result
 
 class UserRegistration(generics.CreateAPIView):
     permission_classes=[AllowAny]
@@ -78,16 +80,21 @@ class JobDetailsView(APIView):
     file_serializer = self.serializer_class(data=request.data)
     if file_serializer.is_valid():
         file = file_serializer.save()
-
-        skill_set = file.skillSet
-        file_name = file.document
-        # print (skill_set)
-        # call resume checker
-        resume = Analyzer(file_name,skill_set)
-        found_skills = resume.extract_skills()
-        # print (found_skills)
         
+        file_path = file.document.file
+        role = file.role
+        
+        # call resume checker
+        result = get_result(str(file_path), role)
 
-        return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        required_skills = result[1]
+        filtered_skills = result[0]
+
+        candidate_score = (len(filtered_skills)/len(required_skills)) * 100
+        #get user
+        file.score = candidate_score
+        file.save()
+
+        return Response({'success':True, 'message':file_serializer.data}, status=status.HTTP_200_OK)
     else:
         return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -27,9 +27,11 @@ SECRET_KEY = 'django-insecure-q-=4vdv+kcfo8wy%&3(2@m=7gygow37bs!inf%eie=*r=^j#(c
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://resumechecker-production.up.railway.app'
-# ]
+CORS_ORIGIN_WHITELIST = [
+    'https://resumechecker-production.up.railway.app',
+    'http://localhost:9000',
+    'http://localhost:3000'
+]
 
 
 # Application definition
@@ -43,11 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic', 
     'resume',
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -139,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'resume.User'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
