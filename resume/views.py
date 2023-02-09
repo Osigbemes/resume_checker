@@ -97,4 +97,4 @@ class JobDetailsView(APIView):
 
         return Response({'success':True, 'message':file_serializer.data}, status=status.HTTP_200_OK)
     else:
-        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success':False, 'message':file_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
