@@ -34,6 +34,17 @@ class JobDetailsSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = JobDetails
-        fields = ('document', 'role', 'score')
-        extra_kwargs = {'score': {'read_only':True}}
+        fields = ('document', 'id', 'role', 'score', 'interviewDay', 'email', 'name', 'phone_number')
+        extra_kwargs = {'score': {'read_only':True}, 'name':{'read_only':True}, 'email':{'read_only':True}, 'phone_number':{'read_only':True}}
+   
+class SendEmailSerializer(serializers.ModelSerializer):
     
+    username = serializers.CharField()
+    
+    class Meta:
+        model = JobDetails
+        fields = ('interviewDay', 'email', 'username')
+        
+    def create(self, validated_data):
+        
+        return validated_data

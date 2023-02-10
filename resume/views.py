@@ -13,9 +13,10 @@ from io import TextIOWrapper
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, JobDetailsSerializer
+from .serializers import UserSerializer, JobDetailsSerializer, SendEmailSerializer
 from rest_framework.permissions import AllowAny
-from .check_resume import extract_skills, get_result
+from .check_resume import extract_skills, get_result, get_phonenumber, get_names, get_emails
+from .utils import UtilEmail
 
 class UserRegistration(generics.CreateAPIView):
     permission_classes=[AllowAny]
@@ -70,6 +71,29 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class Login(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
+class SendEmail(generics.UpdateAPIView):
+    serializer_class=SendEmailSerializer
+    
+    def update(self, request, pk, *args, **kwargs):
+        
+        job_details = JobDetails.objects.get(id=pk)
+        email_serializer = self.serializer_class(instance=job_details, data=request.data)
+        
+        if email_serializer.is_valid():
+            if job_details:
+                email = email_serializer.save()
+                job_details.email = email.email
+                job_details.interviewDay = email.interviewDay
+                email.save()
+                
+                # send email to the employee
+                UtilEmail.sendEmail(data={'username':email.username, 'email':job_details.email, 'interviewDay':job_details.interviewDay})  
+                
+                return Response({'success':True, 'message':f'Email sent successfully! {email_serializer.data}'},  status=status.HTTP_200_OK)
+            
+        return Response({'success':False, 'message':email_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                
 
 class JobDetailsView(APIView):
   parser_classes = (MultiPartParser, FormParser)
@@ -86,13 +110,19 @@ class JobDetailsView(APIView):
         
         # call resume checker
         result = get_result(str(file_path), role)
-
+        phone_number = get_phonenumber(str(file_path))
+        names = get_names(str(file_path))
+        email = get_emails(str(file_path))
+        print (phone_number, names, email)
         required_skills = result[1]
         filtered_skills = result[0]
 
         candidate_score = (len(filtered_skills)/len(required_skills)) * 100
         #get user
         file.score = candidate_score
+        file.name = names
+        file.email = email
+        file.phone_number = phone_number
         file.save()
 
         return Response({'success':True, 'message':file_serializer.data}, status=status.HTTP_200_OK)

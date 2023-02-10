@@ -148,3 +148,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.mail.yahoo.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'gbemilekeosinaike@yahoo.com' #os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = 'xyambfbkotzbshtr' #os.environ.get('EMAIL_HOST_PASSWORD')

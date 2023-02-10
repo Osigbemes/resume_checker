@@ -60,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 class JobDetails(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    # user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     # skillSet = models.JSONField(null=True, blank=True)
     # skillSet = ListCharField(
     #     base_field=CharField(max_length=10),
@@ -68,8 +68,11 @@ class JobDetails(models.Model):
     #     blank=True, null=True,
     #     max_length=(6 * 111),  # 6 * 10 character nominals, plus commas
     # )
+    name = models.CharField(blank=True, null=True, max_length=100)
     skillSet = models.CharField(blank=True, null=True, max_length=2000)
+    phone_number = models.CharField(blank=True, null=True, max_length=30)
     role = models.CharField(max_length=100)
     score = models.FloatField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     document = models.FileField(blank=False, null=False)
-    interviewTime = models.DateTimeField(default=timezone.now)
+    interviewDay = models.DateTimeField(default=timezone.now, null=True, blank = True)
