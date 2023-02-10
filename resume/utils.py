@@ -25,7 +25,7 @@ class UtilEmail:
         interviewDay = data['interviewDay']
 
         
-        emailBody = f'Dear {username}' + '\n'+ f'Congratulations on successfully passing your resume screening! We are pleased to invite you for an interview on {interviewDay}.' + '\n' +'\n' + 'The interview will be conducted virtually via Zoom and the meeting details will be shared with you shortly'  + '\n'+ 'We look forward to getting to know you better and answer any questions you may have about the role.' + '\n'+'Kind regards' + '\n' + 'Resume Ranking Inc\n'
+        emailBody = f'Dear {username}' + '\n'+ f'Congratulations on successfully passing your resume screening! We are pleased to invite you for an interview on {interviewDay.strftime("%m/%d/%Y, %H:%M:%S")}.' + '\n' +'\n' + 'The interview will be conducted virtually via Zoom and the meeting details will be shared with you shortly'  + '\n'+ 'We look forward to getting to know you better and answer any questions you may have about the role.' + '\n'+'Kind regards' + '\n' + 'Resume Ranking Inc\n'
 
         subject = f'Scheduling an Interview for {username}'
         message = emailBody

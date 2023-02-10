@@ -72,7 +72,7 @@ class JobDetails(models.Model):
     skillSet = models.CharField(blank=True, null=True, max_length=2000)
     phone_number = models.CharField(blank=True, null=True, max_length=30)
     role = models.CharField(max_length=100)
-    score = models.FloatField(blank=True, null=True)
+    score = models.IntegerField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     document = models.FileField(blank=False, null=False)
     interviewDay = models.DateTimeField(default=timezone.now, null=True, blank = True)

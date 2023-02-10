@@ -119,7 +119,7 @@ class JobDetailsView(APIView):
 
         candidate_score = (len(filtered_skills)/len(required_skills)) * 100
         #get user
-        file.score = candidate_score
+        file.score = int(candidate_score)
         file.name = names
         file.email = email
         file.phone_number = phone_number
