@@ -61,12 +61,12 @@ def get_names(file_path):
 
  
  
-if __name__ == '__main__':
-    text = extract_text_from_pdf('resume.pdf')
-    names = extract_names(text)
+# if __name__ == '__main__':
+#     text = extract_text_from_pdf('resume.pdf')
+#     names = extract_names(text)
  
-    if names:
-        print(names[0])  # noqa: T001
+#     if names:
+#         print(names[0])  # noqa: T001
  
 
 
@@ -116,11 +116,11 @@ def get_phonenumber(file_name):
     return phone_number
 
 
-if __name__ == '__main__':
-    text = extract_text_from_pdf('resume.pdf')
-    phone_number = extract_phone_number(text)
+# if __name__ == '__main__':
+#     text = extract_text_from_pdf('resume.pdf')
+#     phone_number = extract_phone_number(text)
  
-    print(phone_number)  # noqa: T001
+#     print(phone_number)  # noqa: T001
     
     
     
@@ -148,12 +148,12 @@ def get_emails(file_path):
     
     return emails[0]
  
-if __name__ == '__main__':
-    text = extract_text_from_pdf('resume.pdf')
-    emails = extract_emails(text)
+# if __name__ == '__main__':
+#     text = extract_text_from_pdf('resume.pdf')
+#     emails = extract_emails(text)
  
-    if emails:
-        print(emails[0])  # noqa: T001
+#     if emails:
+#         print(emails[0])  # noqa: T001
         
         
         
