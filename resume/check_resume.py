@@ -22,8 +22,8 @@ def extract_text_from_pdf(pdf_path):
     return extract_text(pdf_path)
  
  
-if __name__ == '__main__':
-    print(extract_text_from_pdf('./resume.pdf'))  # noqa: T001
+# if __name__ == '__main__':
+#     print(extract_text_from_pdf('./resume.pdf'))  # noqa: T001
     
 
 #############################################################
@@ -112,7 +112,7 @@ def extract_phone_number(resume_text):
 def get_phonenumber(file_name):
     text = extract_text_from_pdf(file_name)
     phone_number = extract_phone_number(text)
-    print (phone_number)
+    
     return phone_number
 
 

@@ -113,7 +113,7 @@ class JobDetailsView(APIView):
         phone_number = get_phonenumber(str(file_path))
         names = get_names(str(file_path))
         email = get_emails(str(file_path))
-        print (phone_number, names, email)
+        
         required_skills = result[1]
         filtered_skills = result[0]
 
