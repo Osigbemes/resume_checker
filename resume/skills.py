@@ -154,6 +154,8 @@ SKILLS = {
         'Networking', 
         'Data Structures & Algorithms', 
         'Object-Oriented Programming', 
+        'Django',
+        'Python3',
         'Security & Authentication', 
         'Cloud Computing', 
         'Testing & Debugging', 
