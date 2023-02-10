@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = [
     'https://resumechecker-production.up.railway.app',
+    'https://resume-ranking-application.netlify.app',
     'http://localhost:9000',
     'http://localhost:3000'
 ]
