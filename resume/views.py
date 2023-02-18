@@ -13,7 +13,7 @@ from io import TextIOWrapper
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, JobDetailsSerializer, SendEmailSerializer
+from .serializers import GetJobDetailsSerializer, GetUsersSerializer, UserSerializer, JobDetailsSerializer, SendEmailSerializer
 from rest_framework.permissions import AllowAny
 from .check_resume import extract_skills, get_result, get_phonenumber, get_names, get_emails
 from .utils import UtilEmail
@@ -108,6 +108,11 @@ class JobDetailsView(APIView):
         file_path = file.document.file
         role = file.role
         
+        #check user
+        user = User.objects.get(id=file.user_id)
+        if user:
+            file.user = user
+        
         # call resume checker
         result = get_result(str(file_path), role)
         phone_number = get_phonenumber(str(file_path))
@@ -128,3 +133,38 @@ class JobDetailsView(APIView):
         return Response({'success':True, 'message':file_serializer.data}, status=status.HTTP_200_OK)
     else:
         return Response({'success':False, 'message':file_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetAllUsers(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = GetUsersSerializer
+    queryset = User.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_queryset()
+        serializer = self.serializer_class(user, many=True)
+        if serializer:
+            return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetJobDetails(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = GetJobDetailsSerializer
+
+    def get(self, request, pk, *args, **kwargs):
+        user = JobDetails.objects.get(id=pk)
+        serializer = self.serializer_class(user)
+        if serializer:
+            return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetAllJobDetails(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = GetJobDetailsSerializer
+    queryset = JobDetails.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_queryset()
+        serializer = self.serializer_class(user, many=True)
+        if serializer:
+            return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

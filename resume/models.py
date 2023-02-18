@@ -68,6 +68,7 @@ class JobDetails(models.Model):
     #     blank=True, null=True,
     #     max_length=(6 * 111),  # 6 * 10 character nominals, plus commas
     # )
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(blank=True, null=True, max_length=100)
     skillSet = models.CharField(blank=True, null=True, max_length=2000)
     phone_number = models.CharField(blank=True, null=True, max_length=30)
@@ -76,3 +77,6 @@ class JobDetails(models.Model):
     email = models.EmailField(blank=True, null=True)
     document = models.FileField(blank=False, null=False)
     interviewDay = models.DateTimeField(default=timezone.now, null=True, blank = True)
+    
+    def __str__(self):
+        return self.user.username

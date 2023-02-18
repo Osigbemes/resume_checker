@@ -30,12 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 class JobDetailsSerializer(serializers.ModelSerializer):
     
-    # skill_set = serializers.ListField(child=serializers.CharField())
+    user_id = serializers.IntegerField()
 
     class Meta():
         model = JobDetails
-        fields = ('document', 'id', 'role', 'score', 'interviewDay', 'email', 'name', 'phone_number')
-        extra_kwargs = {'score': {'read_only':True}, 'name':{'read_only':True}, 'email':{'read_only':True}, 'phone_number':{'read_only':True}}
+        fields = ('document', 'id', 'role', 'score', 'interviewDay', 'email', 'name', 'phone_number', 'user_id')
+        extra_kwargs = {'score': {'read_only':True}, 'name':{'read_only':True}, 'email':{'read_only':True}, 'phone_number':{'read_only':True}, 'user_id':{}}
    
 class SendEmailSerializer(serializers.ModelSerializer):
     
@@ -48,3 +48,14 @@ class SendEmailSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         
         return validated_data
+    
+class GetUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+        extra_kwargs = {'password': {'write_only':True}}
+        
+class GetJobDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobDetails
+        fields = '__all__'
