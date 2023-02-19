@@ -109,9 +109,9 @@ class JobDetailsView(APIView):
         role = file.role
         
         #check user
-        user = User.objects.get(id=file.user_id)
+        user = User.objects.get(id=file.user)
         if user:
-            file.user = user
+            file.user = user.id
         
         # call resume checker
         result = get_result(str(file_path), role)

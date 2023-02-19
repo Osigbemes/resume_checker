@@ -60,15 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 class JobDetails(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    # skillSet = models.JSONField(null=True, blank=True)
-    # skillSet = ListCharField(
-    #     base_field=CharField(max_length=10),
-    #     size=6,
-    #     blank=True, null=True,
-    #     max_length=(6 * 111),  # 6 * 10 character nominals, plus commas
-    # )
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.IntegerField(null=True, blank=True)
     name = models.CharField(blank=True, null=True, max_length=100)
     skillSet = models.CharField(blank=True, null=True, max_length=2000)
     phone_number = models.CharField(blank=True, null=True, max_length=30)
@@ -79,4 +71,4 @@ class JobDetails(models.Model):
     interviewDay = models.DateTimeField(default=timezone.now, null=True, blank = True)
     
     def __str__(self):
-        return self.user.username
+        return self.email
